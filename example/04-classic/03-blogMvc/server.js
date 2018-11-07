@@ -14,7 +14,9 @@ router
   .get('/', list)
   .get('/post/new', add)
   .get('/post/:id', show)
+  .get('/post/edit/:id', edit)
   .post('/post', create)
+  .post('/modify/:id', modify)
 
 app.use(router.routes())
 
@@ -37,6 +39,20 @@ async function show (ctx) {
 async function create (ctx) {
   const post = ctx.request.body
   M.add(post)
+  ctx.redirect('/')
+}
+
+async function edit (ctx) {
+  const id = ctx.params.id
+  const post = M.get(id)
+  if (!post) ctx.throw(404, 'invalid post id')
+  ctx.body = await V.edit(post)
+}
+
+async function modify (ctx) {
+  const post = ctx.request.body
+  post.id = ctx.params.id
+  M.modify(post)
   ctx.redirect('/')
 }
 

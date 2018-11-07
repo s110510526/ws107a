@@ -15,3 +15,9 @@ M.get = function (id) {
 M.list = function () {
   return posts
 }
+
+M.modify = function(post) {
+  let oldpost = posts[post.id]
+  post.created_at = oldpost.created_at
+  posts[post.id] = post
+}
