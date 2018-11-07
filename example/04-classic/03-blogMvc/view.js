@@ -67,17 +67,20 @@ V.layout = function (title, content) {
 
 V.list = function (posts) {
   let list = []
+  let count = 0
   for (let post of posts) {
+    if (post == null) continue
     list.push(`
     <li>
       <h2>${post.title}</h2>
       <p><a href="/post/${post.id}">讀取貼文</a></p>
     </li>
     `)
+    count ++
   }
   let content = `
   <h1>貼文列表</h1>
-  <p>您總共有 <strong>${posts.length}</strong> 則貼文!</p>
+  <p>您總共有 <strong>${count}</strong> 則貼文!</p>
   <p><a href="/post/new">創建新貼文</a></p>
   <ul id="posts">
     ${list.join('\n')}
@@ -103,6 +106,7 @@ V.show = function (post) {
     <p><a href="/post/edit/${post.id}/">編輯</a></p>
     <h1>${post.title}</h1>
     <p>${post.body}</p>
+    <p><a href="/remove/${post.id}/">刪除</a></p>
   `)
 }
 

@@ -17,6 +17,7 @@ router
   .get('/post/edit/:id', edit)
   .post('/post', create)
   .post('/modify/:id', modify)
+  .get('/remove/:id', remove)
 
 app.use(router.routes())
 
@@ -53,6 +54,13 @@ async function modify (ctx) {
   const post = ctx.request.body
   post.id = ctx.params.id
   M.modify(post)
+  ctx.redirect('/')
+}
+
+async function remove (ctx) {
+  const id = ctx.params.id
+  const post = M.remove(id)
+  if (!post) ctx.throw(404, 'invalid post id')
   ctx.redirect('/')
 }
 
